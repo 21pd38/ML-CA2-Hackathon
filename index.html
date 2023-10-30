@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Spam/Ham Classification</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: linear-gradient(180deg, #021e29, #113447, #021e29);
+            text-align: center;
+            color: #fff;
+            padding: 20px;
+            margin: 0;
+        }
+        .container {
+            background: rgba(0, 0, 0, 0.8);
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .header {
+            font-size: 36px;
+            margin-bottom: 20px;
+            color: #07D7E8; 
+        }
+        .members {
+            font-size: 20px;
+            margin-bottom: 20px;
+        }
+        .members ul {
+            list-style: none; 
+            padding: 0;
+        }
+        .members li {
+            margin: 10px 0;
+            color: #07D7E8;
+        }
+        .input-form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        label {
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            margin: 5px 0;
+            border: 1px solid #555;
+            border-radius: 5px;
+            background-color: #333;
+            color: #fff;
+        }
+        button {
+            background: linear-gradient(180deg, #056ab0, #07D7E8); 
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background 0.3s ease-in-out;
+        }
+        button:hover {
+            background: linear-gradient(180deg, #07D7E8, #056ab0); 
+        }
+        .result-text {
+            font-size: 18px;
+            margin-top: 20px;
+        }
+        .classification {
+            color: #07D7E8;
+        }
+        .chart-container {
+            width: 100%;
+            text-align: center;
+        }
+        .chart-container img {
+            width: 100%;
+            display: block;
+            margin: 0 auto;
+        }
+        .buttons {
+            margin-top: 20px;
+        }
+        .buttons a {
+            margin: 10px;
+            background: linear-gradient(180deg, #056ab0, #07D7E8); 
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            text-decoration: none;
+            display: inline-block;
+            cursor: pointer;
+            transition: background 0.3s ease-in-out;
+        }
+        .buttons a:hover {
+            background: linear-gradient(180deg, #07D7E8, #056ab0); 
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="header">Spam/Ham Classification</h1>
+        <div class="members">
+            <p>Members:</p>
+            <ul>
+                <li>Ashere Jeswin (21pd02)</li>
+                <li>Vamsi Krishna . U (21pd38)</li>
+            </ul>
+        </div>
+        
+        <div class="buttons">
+            <a href="/visualizations" style="font-size: 1.2em;">View visualizations</a>
+        </div>
+        <div class="buttons">
+            <a href="/lime_shap">View LIME and SHAP Explanations</a>
+        </div>
+        <div class="buttons">
+            <a href="/bow" style="font-size: 0.8em;">View Bag of Words (BoW)</a>
+            <a href="/tfidf">View TF-IDF</a>
+        </div>
+        <form method="POST" action="/classify">
+            <div class="input-form">
+                <label for="text_input">Enter Text:</label>
+                <input type="text" name="text_input" class="form-control" id="text_input" placeholder="Enter text to classify">
+            </div>
+            <button type="submit" class="btn btn-primary">Classify</button>
+        </form>
+        {% if results %}
+        <div class="result">
+            <h2>Classification Results:</h2>
+            <ul>
+                {% for model, result_accuracy in results.items() %}
+                    <li>
+                        <strong>{{ model }}:</strong> {{ result_accuracy['result'] }}
+                        (Accuracy: {{ result_accuracy['accuracy'] | round(2) }})
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+        {% endif %}
+    </div>
+</body>
+</html>
