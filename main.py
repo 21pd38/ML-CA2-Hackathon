@@ -130,7 +130,7 @@ X_tfidf = vectorizer_tfidf.fit_transform(data['message'])
 
 @app.route('/')
 def index():
-    return render_template('index.html', result=None)
+    return render_template('index.html', result=None,data=data)
 
 @app.route('/bow')
 def bow():
@@ -171,7 +171,7 @@ def classify():
             'accuracy': accuracy
         }
 
-    return render_template('index.html', results=results)
+    return render_template('index.html', results=results, data=data)
 
 
 from wordcloud import WordCloud
@@ -315,9 +315,10 @@ def lime_shap():
 
     return render_template('lime_shap.html', lime_plot1=lime_plot1, lime_plot2=lime_plot2, shap_plot=shap_plot)
 
+@app.route('/spam_messages')
+def spam_messages():
+    spam_messages = data[data['label'] == 1]['message'].tolist()
+    return render_template('spam_messages.html', spam_messages=spam_messages)
 
 if __name__ == '__main__':
     app.run(debug=True)
-
-
-
